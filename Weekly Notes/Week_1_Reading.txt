@@ -1,1 +1,36 @@
-Hey guys!
+Syllabus
+- Class structure in unlike the majority of other courses CSE students have taken at BYUI
+- First 8 weeks will consisent of creating a project idea and then completing bakeoffs to test different structures
+- Final 5 weeks will be based on completing the project with the chosen tools
+- Teams
+	- We will need to come to team meetings prepared
+	- Stay up to date with the class and with the assignments your team has agreed to
+	- Will work with them throughout the semester so follow through to help build trust in each other
+- Grades
+	- A's will be for students who go above and beyond
+	- We will present a portfolio at the end of the semester showcasing our efforts and work to prove the rating we give ourselves (begin preparing now)
+
+
+Working with Groups
+- Consistent communication with the team (establish at beginning of team work what this should be)
+- Trello board is a great tool for keeping teams on the same page and up to date on who is accomplishing what
+- Make sure to pull before writing changes and push when they are complete to help keep the project up to date
+- Keep changes small and in separate branches to help prevent bugs or breaks in your teams code
+
+
+
+
+Web Vitals
+- User experience will often correlate with how long a web site will live on the web
+- Web Vitals was an initiative by Google to provide standard guidance to help developers test their sites
+- Core Web Vitals
+	- These are web vitals that apply to all web pages
+		- Each one will be a specific part of the UX, will be measurable in the field, and will reflect a realworld example of a user-centric outcome.
+	- Current 3 Aspects are Loading, interactivity and visual stability
+	- Each one is measured by one of the following:
+		- LCP (Largest Contentful Paint): 2.5 second from page beginning to load (good UX)
+		- INP (Interaction to Next Paint): 200 milliseconds or less (good UX)
+		- CLS (Cumulative Layout Shift): 0.1 or less (good UX)
+- Three Types of Metrics before added to web vitals: Experimental, Pending, and Stable
+
+
