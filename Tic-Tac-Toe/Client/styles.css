@@ -1,0 +1,134 @@
+:root {
+    --font-body: 'Inter', sans-serif;
+    --font-heading: 'Inter', sans-serif;
+
+    --color-text: #111;
+    --color-bg: #fff;
+
+    --board-bg: #eee;
+    --board-border-color: #4da0d8;
+
+    --cell-size: 3rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+
+}
+
+.game-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border: 1px solid var(--board-border-color);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.game-board h1 {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    color: var(--board-border-color);
+}
+
+#results {
+    min-height: 1.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.button {
+    padding: 0.5rem 1.25rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: #fff;
+    background-color: var(--board-border-color);
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.button:hover {
+    filter: brightness(0.92);
+}
+
+#board {
+    display: grid;
+    width: fit-content;
+    grid-template-columns: repeat(3, var(--cell-size));
+    grid-template-rows: repeat(3, var(--cell-size));
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--board-bg);
+    border: 1px solid var(--board-border-color);
+    border-radius: 0.5rem;
+}
+
+.cell {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.cell:focus {
+    outline: none;
+}
+
+.cell:hover {
+    background-color: var(--board-border-color);
+}
+
+.history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
+    margin: 2rem auto;
+}
+
+.history h2 {
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+/* Saved (read-only) boards */
+.board {
+    display: grid;
+    width: fit-content;
+    margin: 0 auto 1rem;
+    grid-template-columns: repeat(3, var(--cell-size));
+    grid-template-rows: repeat(3, var(--cell-size));
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: var(--board-bg);
+    border: 1px solid var(--board-border-color);
+    border-radius: 0.5rem;
+}
+
+.board .cell {
+    cursor: default;
+}
+
+.board .cell:hover {
+    background-color: transparent;
+}
+
