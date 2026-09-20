@@ -18,6 +18,9 @@ Working with Groups
 - Keep changes small and in separate branches to help prevent bugs or breaks in your teams code
 
 
+Course Setup
+- Requested GitHub Education again (last time rejected)
+- Everything else complete
 
 
 Web Vitals
@@ -32,5 +35,20 @@ Web Vitals
 		- INP (Interaction to Next Paint): 200 milliseconds or less (good UX)
 		- CLS (Cumulative Layout Shift): 0.1 or less (good UX)
 - Three Types of Metrics before added to web vitals: Experimental, Pending, and Stable
+
+
+Progressive Enhancement
+- Style of building websties where the foundation of the site is the HTML before adding CSS or JS
+	- Ensures service is robust and high quality
+	- Helps it work more consistent across diffferent browsers
+	- Help ensure the correct setup of the basic functionality
+- Structure of Webpage: HTML -> CSS -> JS
+	- This allows for each one to build off each other but should help prevent dependency
+	- Avoid "CSS-in-JS" in case the JS fails to load
+	- JS tends to be where the code break so more tests will need to be done there
+		- Debate on using HTML + CSS instead of JS where possible
+- No SPAs (Single Page Applications)
+- Test your service
+- Be more aware of ways your code can potentially fail
 
 
