@@ -1,0 +1,18 @@
+Performance Inequality Gap
+- 2017 survey showed the global baseline for devices was about a $200 android device
+- Can't keep using the same amount of JS (large) if we are attempting to reach those who do not have as advanced as technology
+- Modern teams may often struggle with performance when using today's common frameworks
+- The issue has been with the amount of JS developers have been programming to run
+	
+	The "Developer Experience" Bait-and-Switch
+	- 
+
+Chrome Performance Metrics
+- Currently on Chrome 152 there is support for 186 frameworks
+
+
+
+
+Questions:
+- What would be examples of unnessacary JS that would slow execution?
+
