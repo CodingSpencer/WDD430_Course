@@ -3,15 +3,43 @@ Performance Inequality Gap
 - Can't keep using the same amount of JS (large) if we are attempting to reach those who do not have as advanced as technology
 - Modern teams may often struggle with performance when using today's common frameworks
 - The issue has been with the amount of JS developers have been programming to run
-	
-	The "Developer Experience" Bait-and-Switch
-	- 
+- Recommended test devices?
+	- I had never thought of this before
+- What is Light vs. Heavy JS?
 
 Chrome Performance Metrics
 - Currently on Chrome 152 there is support for 186 frameworks
 
+State of the Web
+- It was fun to see the different areas of focus for developers and web users
+- It always made sense to me to have the differing focuses for both trypes of development
+- The sample data took from over 25 million sites
 
+If Not React, Then What?
+- React is not the modern framework it is often seen as
+	- Its often tied to performance and accessibility issues
+	- React tends to be a heavy JS framework which many developers are recommending to move away from
+- Frameworkism:
+	- Developer culture that assumes users issues are normally solved by adding more framwork specific tooling which often raised the required resources to run the site
+- Realism:
+	- This would add a focus on the actual experience of users to try to ensure ones with older specs.
+- Many excuses are often used for React, but they have all had evidence released against them
 
+Spec Driven Development
+- Using AI to help draft a project plan
+- 01 Start with Project Idea
+	- Take some time to define:
+		- Problems the application solves
+		- Who will use it
+		- Core workflows users will need
+		- What not to try with the project yet
+- 02 Draft the Specification With AI
+	- Goal should not be to let the model create the project, but to help you create a first draft
+	- Try to avoid vague features, large items, missing info, etc.
+- 03 Critique and Improve of Draft
+	- The first draft can be review by another model or another one if needed
+	- This is a chance to check documentation
+	
 
 Questions:
 - What would be examples of unnessacary JS that would slow execution?
