@@ -1,0 +1,80 @@
+Performance Panel
+- This is a tool in Chrome Dev Tools that helps use check our website performance mectrics
+	- Can use CrUX (Chrome UX Report) to help compare you personal experience to others
+- We want our experience to mimics the common user's experience
+- Performance Reports
+	- Ensure we are testing with lower settings or ones equal to the user's
+	- Then start checking what is taking the longest to load and why
+
+Common Web Architectures
+- Monolithic Full-Stack Architecture
+	- Pros: Simple, shared environment, and good for small teams
+	- Cons: Hard to scale, full redeploy for every change, and difficult to refactor
+	- Ex. - Ruby on rails, Laravel (PHP), Django (Python), and Express + server-rendered views
+	
+- N-Tier/Layered Architecture
+	- Pros: Clear separation of concerns, independent layer testing, and predictable structure
+	- Cons: Boilerplate-heavy, strict layer boundaries lead to slower iteration, and potential performance overhead
+	- Ex. - Java Spring MVC, .NET MVC, Node.js with explicit layers, and PHP Symfony
+	
+- Decoupled API Backend + SPA / Client Architecture
+	- Pros: Services can scale + deploy independently, technology flexibility per service, and failures are isolated to individual services.
+	- Cons: Complex DevOps, more challengin debuggging, and requires disiplined API design
+	- Ex. - Frontend: React, Svelte, Vue SPAs; Backend: Node.js microservices, Go services, Spring Boot services (overall usually deployed with Kubernetes)
+
+- Serverless Full-Stack Architecture
+	- Pros: No server management, automatic scaling, and easy global development
+	- Cons: Cold start latency, vendor lock-in (AWS, Vercel, Cloudflare), and limited runtime duration
+	- Ex. - AWS Lambda + API Gateway + static SPA, Cloudflare Workers, and Vercel Functions + Next.js/SvelteKit
+	
+- SSR / Hybrid Full-Stack Framework Architecture
+	- Pros: Great SEO + performance, unified full-stack development experience, and built in backend reduce boilerplate
+	- Cons: More complex build, SSR + client hydration can be tricky for starters, and cache invalidation becomes important
+	- Ex. - SvelteKit, Next.js, Remix, Nuxt, and Astron (with SSR)
+	
+- Static Site / SSG Architecture
+	- Pros: Fast page loads, cheap hosting, and ideal for SEO content
+	- Cons: Dynamic content requires rebuilding, long build times with large sites, and limited full-stack features
+	- Ex. - Astro, Hugo, Eleventy, Jekyll, and Next.js
+
+
+
+Rendering on the Web
+- Render Types: Server-side rendering (SSR) send HTML to a client vs. Client-side rendering (CSR) which uses JS to modify the DOM
+- Prerendering: Running a client-side application at build time to capture its initial state as static HTML.
+- Hydration: Client side script to add interactivity and application state to server-rendered HTML which assumes the DOM doesn't change
+- Rehydration: Regularly updating the DOM with the latest state including after the initial hydration
+
+- Performance Terms:
+	- Time to First Byte (TTFB): The time between clicking a link and the first byte of content loading on the new page
+	- First Contentful Paint (FCP): Time when request content becomes visible
+	- Interaction to Next Paint (INP): Representative metric that assesses whether a page consistently responds quickly to user inputs
+	- Total Blocking Time (TBT): Proxy metric for INP that caculates how long the main thread was blocked during page load
+	- Time to Interactive (TTI): Measures when the page becomes interactive
+
+- Server-side rendering
+	- Generally can help lower most metrics
+	- End up sending mainly text and links
+	- Generating pages takes more time which does increase TTFB
+	- Netflix does a combo of server and client side rendering
+
+- Static rendering
+	- A separate HTML file for each URL ahead of time which means quicker rendering as long as not too much JS
+	- Downsides is that a different file would be needed for every potential URL (they would need to be know before hand)
+	- Static rendered page are interactive without needing to execute much JS
+
+- Prerendering generally needs more JS to be become interactive and that JS tends to be more complex
+
+- SSR vs. Static Rendering
+	- SSR isn't the best solution for everything (can contain extra data)
+		- Can often lead to building things twice for them to work properly
+	- Client-side rendering struggles on Mobile
+		- Downsides is JS tends to grow as the application begins to grow
+- Rehydration combines server-side and client-side rendering
+	- Hydration is an approach that mitigates the tradeoffs by using both
+	- This can be slow even though it has the appreance of everything being loaded
+
+- Stream SSR and rehydrate progressively are potential solutions
+
+	
+
