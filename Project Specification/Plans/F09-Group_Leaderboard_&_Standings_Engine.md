@@ -1,147 +1,175 @@
-# {Feature ID} — {Feature Name}
+# F09 — Group Leaderboard & Standings
 
-> Implementation plan. Source: [docs/MISSING_FEATURES.md](../MISSING_FEATURES.md) §{section}.
+> Sources: [RecSquad - Specifications Proposal](../ReqSquad%20-%20Specifications%20Proposal.docx) §§3, 5–7 and [AGENTS.md](../AGENTS.md).
 
 ## Metadata
 
 | Field | Value |
 |---|---|
-| **Feature ID** | {e.g. 1.1} |
-| **Section** | {e.g. Adaptive Learning Core} |
-| **Severity** | BLOCKER \| MAJOR \| MINOR |
-| **Markets** | Example Market 
-| **Status (today)** | MISSING \| PARTIAL \| THIN |
-| **Estimated effort** | XS (≤1d) \| S (1w) \| M (2–4w) \| L (1–2mo) \| XL (>2mo) |
-| **Owner (proposed)** | {team / individual} |
-| **Depends on** | {list of Feature IDs that must ship first} |
-| **Unblocks** | {list of Feature IDs this enables} |
+| **Feature ID** | F09 |
+| **Section** | Group Standings |
+| **Severity** | MAJOR |
+| **Markets** | United States |
+| **Status (today)** | MISSING - no RecSquad leaderboard has been implemented |
+| **Estimated effort** | **[CHOOSE: XS / S / M / L / XL after deciding ranking rules]** |
+| **Owner** | **[CHOOSE: person responsible for this feature]** |
+| **Depends on** | F01 (data/API), F04 (groups), F06 (events), F08 (completed scores) |
+| **Unblocks** | Players comparing results within a group; F10 may reuse standings data |
 
----
+## 1. Problem
 
-## 1. Problem Statement
-
-2–4 sentences. *What is missing today, who is hurt by the gap, and what business outcome does fixing it create?*
+Players and organizers want to see how players are doing in a group. A leaderboard turns completed match results into an easy-to-understand order or standings table. The rules must be clear because sports use different ways to decide who wins.
 
 ## 2. Goals
 
-- Bullet list of 3–5 outcomes the work must achieve.
+- Show standings for a group based on saved completed match results.
+- Explain the values used to order players.
+- Use the correct scoring approach for each supported sport.
+- Exclude incomplete or invalid scorecards.
 
-## 3. Non-Goals
+## 3. Not Included
 
-- Explicit out-of-scope items so reviewers do not chase scope creep.
+- Entering scores (F08).
+- Scheduling matches (F06).
+- Player analytics charts or full personal history (F10).
+- Global rankings across every RecSquad user.
+- Predictions, awards, or advanced statistics.
 
-## 4. Personas & User Stories
+## 4. People Who Use This
 
-- **As a {role}**, I want to {action} so that {value}.
-- Cover student, instructor, admin, parent (where relevant), and self-learner perspectives.
+- **Player:** I want to see my group's standings and compare completed results.
+- **Organizer:** I want players to understand how the group standings are calculated.
+- **New player:** I want to see the group's competitive activity before joining.
 
-## 5. Functional Requirements
+## 5. What the System Must Do
 
-Numbered, testable, written in MUST / SHOULD / MAY (RFC 2119) form.
+- **FR-1.** Show standings for a selected group.
+- **FR-2.** Use completed scorecards only unless another rule is explicitly chosen.
+- **FR-3.** Calculate each player's results using the agreed rules for that sport.
+- **FR-4.** Show the values used for ranking, such as wins/losses or score.
+- **FR-5.** Handle ties using a documented rule.
+- **FR-6.** Do not count the same match more than once.
+- **FR-7.** Do not include players or scores from a different group.
+- **FR-8.** Explain when there are no completed matches yet.
+- **FR-9.** Allow users to view a group's standings subject to the group's visibility rules.
 
-- **FR-1.** The system MUST …
-- **FR-2.** The system MUST …
-- **FR-3.** The system SHOULD …
+## 6. Basic Quality and Safety Needs
 
-## 6. Non-Functional Requirements
+- Show when standings were last updated if calculations are cached.
+- Make the ranking rules visible in plain language.
+- Avoid presenting a stat as a ranking if the product has not defined how to calculate it.
+- Protect private group results using F04's visibility rules.
+- Use F01's API error format and documentation conventions.
+- Make the table usable on small screens; provide a non-table alternative if needed for accessibility.
 
-- **Performance** — p95 latency targets, throughput, payload size limits.
-- **Security** — authn/authz model, threat-model notes, encryption.
-- **Privacy & Compliance** — FERPA / COPPA / GDPR / WCAG / SOC 2 obligations.
-- **Accessibility** — WCAG 2.1 AA conformance for all UI added.
-- **Scalability** — expected load, partitioning strategy.
-- **Reliability** — availability target, failure modes, idempotency.
-- **Observability** — required metrics, log fields, traces, alerts.
-- **Maintainability** — coding conventions, owned modules.
-- **Internationalization** — strings externalised, tz/locale handled.
-- **Backward compatibility** — migration & deprecation policy.
+## 7. How We Know It Works
 
-## 7. Acceptance Criteria
+- **AC-1.** Given completed matches in a group, when standings are requested, then only those matches affect the results.
+- **AC-2.** Given an in-progress match, when standings are calculated, then it is not counted.
+- **AC-3.** Given two players with different results, when standings are shown, then their order follows the documented rule.
+- **AC-4.** Given players tied under the ranking rule, when standings are shown, then the documented tie behavior is used.
+- **AC-5.** Given a match from a different group, when standings are calculated, then it is not included.
+- **AC-6.** Given a group with no completed scores, when the page opens, then a clear empty message appears.
+- **AC-7.** Given a user without permission to view a private group, when they request standings, then the server refuses.
+- **AC-8.** Given a leaderboard on a phone or with a screen reader, when it is used, then player names and ranking values can be understood.
 
-Concrete, testable, Given/When/Then format. Each AC SHOULD map to at least one automated test.
+## 8. Information to Store
 
-- **AC-1.** *Given* … *When* … *Then* …
-- **AC-2.** …
+Standings should be calculated from F01's `match_scores`, linked events, groups, and players. Do not manually edit leaderboard totals.
 
-## 8. Data Model
+- **[CHOOSE: calculate standings on each request or store/cache them for faster display.]**
+- If standings are cached, define when they are refreshed and how to rebuild them from completed scores.
+- Exact ranking fields depend on sport. Do not add generic fields until the rules are chosen.
 
-- New tables / columns / enums.
-- Indexes & constraints.
-- Migration file naming convention used by the repo (`server/migrations/NNN_*.sql`).
-- Backfill strategy for existing rows.
+## 9. API Route
 
-## 9. API Surface
+Use F01's `/api/v1` prefix.
 
-- New / changed HTTP routes (path, verb, auth scope).
-- Request & response shapes (JSON schema or pseudo-TypeScript).
-- WebSocket events if applicable.
-- Rate-limit / quota considerations.
-- OpenAPI documentation requirement.
+| Method and route | Who can use it? | What it does |
+|---|---|---|
+| `GET /api/v1/groups/:id/leaderboard` | Public or group members **[CHOOSE]** | Get group standings |
 
-## 10. UI / UX
+Possible filters include season or date range only if selected. Document ranking fields and tie rules in the response and API docs.
 
-- New pages, modified pages, new components.
-- Key user flows (numbered).
-- Empty / loading / error / offline states.
-- Mobile / responsive behaviour.
-- Accessibility annotations (focus order, ARIA).
-- Copy & i18n keys.
+## 10. Screens and User Experience
 
-## 11. AI / ML Considerations
+- Group page includes a standings list or table.
+- Show rank, player name, and only the stats needed to explain the ranking.
+- Show a helpful empty state when no completed matches exist.
+- Clearly label season/date range if standings are limited to one.
+- **[CHOOSE: which standings and stats should be shown for each sport.]**
+- Make the view usable on a phone and accessible with keyboard/screen reader.
 
-(Skip if not AI-touching.)
+## 11. AI / ML
 
-- Model(s) used, prompts, eval metric, fallback path, PII redaction, cost budget.
+Not applicable. Standings use published rules, not an AI ranking.
 
-## 12. Integration Points
+## 12. Things This Feature Connects To
 
-- External services / APIs touched (with versions).
-- Internal modules touched (with file paths).
-- Webhook / event emissions.
+- **F01:** Match score and event data.
+- **F04:** Group identity and visibility.
+- **F06:** Event/group relationship.
+- **F08:** Completed scores and participating players.
+- **F10:** May use group performance values in player analytics.
 
-## 13. Dependencies & Sequencing
+## 13. Work Order
 
-- Must ship after: {Feature IDs}.
-- Must ship before: {Feature IDs}.
-- Shared infra needed: object storage, job queue, email, etc.
+1. Finish F01, F04, F06, and F08.
+2. Agree on one clear ranking rule per sport included.
+3. Define how ties, seasons, and incomplete scores work.
+4. Build leaderboard API and group page.
+5. Test example match sets by hand and in automated tests.
 
-## 14. Risks & Mitigations
+## 14. Main Risks
 
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| … | L/M/H | L/M/H | … |
+| Risk | How to reduce it |
+|---|---|
+| Ranking math is unclear or unfair | Write examples and get organizer/player agreement before implementation. |
+| Different sports use different scoring rules | Define sport-specific calculations and do not force one formula on all sports. |
+| Corrections make totals stale | Recalculate from completed scorecards or refresh the cache after score changes. |
+| In-progress results appear as final | Include completed matches only. |
+| Private group results are exposed | Apply group visibility rules on the server. |
 
-## 15. Rollout Plan
+## 15. Releasing the Feature
 
-- Feature flag name & default state.
-- Migration sequencing (schema → backfill → code → flip flag).
-- Dogfood / pilot cohort.
-- GA criteria & comms.
-- Rollback path.
+- Release after F08 can save completed scores for the chosen sports.
+- Initially calculate from saved match data; add caching only if performance requires it.
+- **[CHOOSE: feature flag or no flag for the first release.]**
+- If calculation is wrong, hide the leaderboard while preserving source scorecards.
 
-## 16. Test Plan
+## 16. Tests
 
-- **Unit** — what is covered.
-- **Integration** — DB / API / WebSocket scenarios.
-- **End-to-end** — Playwright happy paths + edge cases.
-- **Security** — authz matrix, abuse cases, OWASP-relevant checks.
-- **Accessibility** — automated (axe) + screen-reader scripts.
-- **Performance / load** — target tooling and pass criteria.
-- **Manual exploratory** — checklists for QA.
+- Test each sport's ranking math with small example score sets.
+- Test ties, no scores, and in-progress scores.
+- Test that scores from other groups are excluded.
+- Test corrections to completed scores update standings.
+- Test visibility and mobile/accessibility behavior.
+- Compare sample calculations manually with the expected order before release.
 
-## 17. Documentation & Training
+## 17. Documentation
 
-- End-user docs (help center).
-- Admin / instructor docs.
-- API reference updates.
-- Internal runbook updates.
+- Explain how standings are calculated for each sport.
+- Document tie rules and season/date filters.
+- Document the leaderboard API response.
 
-## 18. Open Questions
+## 18. Choices to Make
 
-- Numbered list of decisions that still need owners or research.
+1. Who owns the feature and what effort estimate fits?
+2. Which sports need a leaderboard in the first release?
+3. How is a win/loss/tie determined for each sport?
+4. What should the leaderboard rank: wins, points, average score, or another measure?
+5. How should ties be displayed or broken?
+6. Are standings for all time, a season, or a date range?
+7. Who can see standings for public/private groups?
+8. Calculate on each request or cache results?
+9. Should a feature flag be used?
 
 ## 19. References
 
-- Existing files this work touches: `server/internal/...`, `clients/web/src/...`.
-- External standards: RFCs, IMS Global specs, NIST guidance, etc.
-- Related plans: `../{section-folder}/{file}.md`.
+- [AGENTS.md](../AGENTS.md) - match score and group context.
+- [F01 - Database Schema & API Infrastructure Setup](./F01-Database_Schema_%26_API_Infrastructure_Setup.md) - score model.
+- [F04 - Community Group Creation & Management](./F04-Community_Group_Creation_%26_Management.md) - groups.
+- [F06 - Event Scheduling & Capacity Tracking](./F06-Event_Scheduling_%26_Capacity_Tracking.md) - events.
+- [F08 - Mobile Match Scorecard Entry](./F08-Mobile_Match_Scorecard_Entry.md) - results.
+- [F10 - Player Analytics & Match History Dashboard](./F10-Player_Analytics_%26_Match_History_Dashboard.md) - player statistics.
+- [RecSquad - Specifications Proposal](../ReqSquad%20-%20Specifications%20Proposal.docx) §§3, 5–7.

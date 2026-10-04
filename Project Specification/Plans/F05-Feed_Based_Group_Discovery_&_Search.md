@@ -1,147 +1,182 @@
-# {Feature ID} — {Feature Name}
+# F05 — Group Discovery & Search
 
-> Implementation plan. Source: [docs/MISSING_FEATURES.md](../MISSING_FEATURES.md) §{section}.
+> Sources: [RecSquad - Specifications Proposal](../ReqSquad%20-%20Specifications%20Proposal.docx) §§3, 5–7 and [1.2 - Community Feed](./1.2-Community_Feed.md).
 
 ## Metadata
 
 | Field | Value |
 |---|---|
-| **Feature ID** | {e.g. 1.1} |
-| **Section** | {e.g. Adaptive Learning Core} |
-| **Severity** | BLOCKER \| MAJOR \| MINOR |
-| **Markets** | Example Market 
-| **Status (today)** | MISSING \| PARTIAL \| THIN |
-| **Estimated effort** | XS (≤1d) \| S (1w) \| M (2–4w) \| L (1–2mo) \| XL (>2mo) |
-| **Owner (proposed)** | {team / individual} |
-| **Depends on** | {list of Feature IDs that must ship first} |
-| **Unblocks** | {list of Feature IDs this enables} |
+| **Feature ID** | F05 |
+| **Section** | Community Discovery |
+| **Severity** | MAJOR |
+| **Markets** | United States |
+| **Status (today)** | MISSING - no RecSquad discovery feature has been implemented |
+| **Estimated effort** | **[CHOOSE: XS / S / M / L / XL after confirming map and search scope]** |
+| **Owner** | **[CHOOSE: person responsible for this feature]** |
+| **Depends on** | F01 (database/API), F04 (groups); F06 (events) for event cards |
+| **Unblocks** | Players finding groups and events to join |
 
----
+## 1. Problem
 
-## 1. Problem Statement
-
-2–4 sentences. *What is missing today, who is hurt by the gap, and what business outcome does fixing it create?*
+Players may not know which local groups or games exist. Search and a browsable feed help them find activities by sport, day, and location rather than needing to know a group's name first.
 
 ## 2. Goals
 
-- Bullet list of 3–5 outcomes the work must achieve.
+- Show active public groups and upcoming public events.
+- Let users filter results by sport and day.
+- Support location-based results when location information is available.
+- Link each result to its group or event details.
 
-## 3. Non-Goals
+## 3. Not Included
 
-- Explicit out-of-scope items so reviewers do not chase scope creep.
+- Creating or editing groups (F04).
+- Scheduling events (F06).
+- RSVP or joining a group (F07).
+- Personalized recommendations using machine learning.
+- Likes, comments, messaging, or paid event listings.
+- **[CHOOSE: whether the map view is part of this feature or a later enhancement.]**
 
-## 4. Personas & User Stories
+## 4. People Who Use This
 
-- **As a {role}**, I want to {action} so that {value}.
-- Cover student, instructor, admin, parent (where relevant), and self-learner perspectives.
+- **Player:** I want to find nearby groups and events for sports I enjoy.
+- **New visitor:** I want to browse public activities before deciding whether to create an account.
+- **Organizer:** I want active public groups and events to be discoverable.
 
-## 5. Functional Requirements
+## 5. What the System Must Do
 
-Numbered, testable, written in MUST / SHOULD / MAY (RFC 2119) form.
+- **FR-1.** Show active public groups and upcoming public events.
+- **FR-2.** Exclude archived, private, or deleted items in the server query, not just hide them in the browser.
+- **FR-3.** Show each result's title, sport, location, schedule if available, and whether it is a group or event.
+- **FR-4.** Let users filter results by sport and day of the week.
+- **FR-5.** Let users clear all filters.
+- **FR-6.** Let users open the related group or event details by selecting a result.
+- **FR-7.** Support pages of results so a large search does not return everything at once. Start with up to 20 results per request.
+- **FR-8.** If location is available, allow a distance filter and show nearer results first.
+- **FR-9.** If there is no location, show results in a predictable order, such as the next event date.
+- **FR-10.** Allow visitors to browse public results without signing in, unless the product chooses otherwise.
 
-- **FR-1.** The system MUST …
-- **FR-2.** The system MUST …
-- **FR-3.** The system SHOULD …
+## 6. Basic Quality and Safety Needs
 
-## 6. Non-Functional Requirements
+- Search should return within 500 ms for a normal page of results. **[Confirm with F01/API owner before load testing.]**
+- Use F01's GeoJSON indexes for distance searches; coordinates are longitude first.
+- Never include private group or personal location information in public results.
+- Show a useful message when there are no results or the server cannot be reached.
+- Search filters and result cards should work on mobile and with a keyboard.
+- Use F01's shared API errors and document search parameters.
 
-- **Performance** — p95 latency targets, throughput, payload size limits.
-- **Security** — authn/authz model, threat-model notes, encryption.
-- **Privacy & Compliance** — FERPA / COPPA / GDPR / WCAG / SOC 2 obligations.
-- **Accessibility** — WCAG 2.1 AA conformance for all UI added.
-- **Scalability** — expected load, partitioning strategy.
-- **Reliability** — availability target, failure modes, idempotency.
-- **Observability** — required metrics, log fields, traces, alerts.
-- **Maintainability** — coding conventions, owned modules.
-- **Internationalization** — strings externalised, tz/locale handled.
-- **Backward compatibility** — migration & deprecation policy.
+## 7. How We Know It Works
 
-## 7. Acceptance Criteria
+- **AC-1.** Given active public groups, when a visitor opens discovery, then those groups appear.
+- **AC-2.** Given an archived or private group, when discovery is searched, then it is not returned.
+- **AC-3.** Given a sport filter, when a user selects a sport, then only matching results appear.
+- **AC-4.** Given a day filter, when a user selects a day, then only matching scheduled results appear.
+- **AC-5.** Given a location and distance, when nearby search is used, then results within the requested distance are returned.
+- **AC-6.** Given no location, when results are shown, then they use the documented fallback order.
+- **AC-7.** Given more than one page of results, when the next page is requested, then no duplicate results appear.
+- **AC-8.** Given a result card, when the user selects it, then the matching group/event details open.
+- **AC-9.** Given no matching results or a server error, when the page loads, then a clear empty/error message appears.
 
-Concrete, testable, Given/When/Then format. Each AC SHOULD map to at least one automated test.
+## 8. Information to Store
 
-- **AC-1.** *Given* … *When* … *Then* …
-- **AC-2.** …
+F05 mainly reads group and event data from F01; it should not create duplicate records.
 
-## 8. Data Model
+- Group name, sport, location, status, and visibility come from F04.
+- Event title, sport through its group, and start time come from F06.
+- Add indexes only if actual discovery queries need them; coordinate with F01.
+- The user's location should not be stored just to search unless the product decides it is needed.
 
-- New tables / columns / enums.
-- Indexes & constraints.
-- Migration file naming convention used by the repo (`server/migrations/NNN_*.sql`).
-- Backfill strategy for existing rows.
+## 9. API Routes
 
-## 9. API Surface
+Use F01's `/api/v1` prefix.
 
-- New / changed HTTP routes (path, verb, auth scope).
-- Request & response shapes (JSON schema or pseudo-TypeScript).
-- WebSocket events if applicable.
-- Rate-limit / quota considerations.
-- OpenAPI documentation requirement.
+| Method and route | Who can use it? | What it does |
+|---|---|---|
+| `GET /api/v1/groups` | Public or signed-in user | Search groups |
+| `GET /api/v1/events` | Public or signed-in user | Search upcoming events |
+| `GET /api/v1/discovery` | Public or signed-in user | Optional combined group/event feed |
 
-## 10. UI / UX
+Possible query values: `sport`, `day`, `latitude`, `longitude`, `radius`, and page/cursor. **[CHOOSE: separate group/event search or one combined feed.]** Document valid ranges, defaults, and response fields.
 
-- New pages, modified pages, new components.
-- Key user flows (numbered).
-- Empty / loading / error / offline states.
-- Mobile / responsive behaviour.
-- Accessibility annotations (focus order, ARIA).
-- Copy & i18n keys.
+## 10. Screens and User Experience
 
-## 11. AI / ML Considerations
+- Discovery page with a list of group/event cards.
+- Filters for sport and day, plus location/distance if included.
+- A map view is **[CHOOSE: in this release or later]**.
+- Each card should show title, sport, place, schedule, and a clear link to details.
+- Include loading, no-results, and retry states.
+- Keep selected filters when returning from a detail page if practical.
+- Provide a default sports image or placeholder when no image exists.
 
-(Skip if not AI-touching.)
+## 11. AI / ML
 
-- Model(s) used, prompts, eval metric, fallback path, PII redaction, cost budget.
+Not applicable. This feature uses simple filters and sorting, not recommendations from an AI model.
 
-## 12. Integration Points
+## 12. Things This Feature Connects To
 
-- External services / APIs touched (with versions).
-- Internal modules touched (with file paths).
-- Webhook / event emissions.
+- **F01:** Search API, MongoDB indexes, and GeoJSON location format.
+- **F04:** Groups, visibility, and archive state.
+- **F06:** Event schedules.
+- **F02/F03:** Optional sign-in and preferred sports.
+- **Maps provider:** **[CHOOSE whether to use Google Maps or launch with a list-only view.]**
 
-## 13. Dependencies & Sequencing
+## 13. Work Order
 
-- Must ship after: {Feature IDs}.
-- Must ship before: {Feature IDs}.
-- Shared infra needed: object storage, job queue, email, etc.
+1. Finish F01 and F04; finish F06 before showing event results.
+2. Decide list vs map and which filters are in the first version.
+3. Agree on search parameters and result shape.
+4. Build search routes and discovery screen.
+5. Test privacy filters, location searches, and paging.
 
-## 14. Risks & Mitigations
+## 14. Main Risks
 
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| … | L/M/H | L/M/H | … |
+| Risk | How to reduce it |
+|---|---|
+| Private groups appear publicly | Filter visibility on the server and test it. |
+| Coordinates are incorrect | Use F01's longitude-first format and test distance results. |
+| Search is slow | Add indexes for measured search patterns and limit results per request. |
+| Map provider adds cost or setup | Decide provider, API key restrictions, and budget before adding a map. |
+| No results look like a broken page | Provide a helpful empty state and a way to clear filters. |
 
-## 15. Rollout Plan
+## 15. Releasing the Feature
 
-- Feature flag name & default state.
-- Migration sequencing (schema → backfill → code → flip flag).
-- Dogfood / pilot cohort.
-- GA criteria & comms.
-- Rollback path.
+- Release after group data exists; event search follows F06.
+- Start with list search if the map choice is not settled.
+- **[CHOOSE: feature flag or no flag for the first release.]**
+- If map services fail, the list should remain usable.
 
-## 16. Test Plan
+## 16. Tests
 
-- **Unit** — what is covered.
-- **Integration** — DB / API / WebSocket scenarios.
-- **End-to-end** — Playwright happy paths + edge cases.
-- **Security** — authz matrix, abuse cases, OWASP-relevant checks.
-- **Accessibility** — automated (axe) + screen-reader scripts.
-- **Performance / load** — target tooling and pass criteria.
-- **Manual exploratory** — checklists for QA.
+- Test sport/day filters, location radius, sorting, and paging.
+- Test archived/private groups never appear.
+- Test empty results and API failure screens.
+- Test result links open the correct details.
+- Check mobile layout, keyboard use, and screen-reader labels.
+- If a map is included, test unavailable map service and missing coordinates.
 
-## 17. Documentation & Training
+## 17. Documentation
 
-- End-user docs (help center).
-- Admin / instructor docs.
-- API reference updates.
-- Internal runbook updates.
+- Explain discovery filters and location behavior.
+- Document search routes and query parameters.
+- Document map provider setup if a map is selected.
 
-## 18. Open Questions
+## 18. Choices to Make
 
-- Numbered list of decisions that still need owners or research.
+1. Who owns the feature and what effort estimate fits?
+2. Is the first version a list only, or does it include a map?
+3. Should visitors browse without an account?
+4. Should search show groups, events, or both in one feed?
+5. Which filters are required at launch: sport, day, distance, date?
+6. Which location should search use: user-entered coordinates, device location, or a chosen town/ZIP code?
+7. If a map is included, use Google Maps or another provider, and what is the budget?
+8. Should preferred sports from F03 automatically filter results?
+9. What should results do when no location is provided?
+10. Should a feature flag be used?
 
 ## 19. References
 
-- Existing files this work touches: `server/internal/...`, `clients/web/src/...`.
-- External standards: RFCs, IMS Global specs, NIST guidance, etc.
-- Related plans: `../{section-folder}/{file}.md`.
+- [AGENTS.md](../AGENTS.md) - GeoJSON and maps context.
+- [F01 - Database Schema & API Infrastructure Setup](./F01-Database_Schema_%26_API_Infrastructure_Setup.md) - data and API.
+- [F04 - Community Group Creation & Management](./F04-Community_Group_Creation_%26_Management.md) - group records.
+- [F06 - Event Scheduling & Capacity Tracking](./F06-Event_Scheduling_%26_Capacity_Tracking.md) - events.
+- [1.2 - Community Feed](./1.2-Community_Feed.md) - detailed feed idea.
+- [RecSquad - Specifications Proposal](../ReqSquad%20-%20Specifications%20Proposal.docx) §§3, 5–7.
