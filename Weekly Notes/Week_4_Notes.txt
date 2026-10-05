@@ -1,0 +1,43 @@
+Week 04 Notes
+
+
+Every Frontend Framework Explained in 6 Minutes! (https://www.youtube.com/watch?v=rd5VilifoOg)
+
+React
+- Created by Facebook in 2013 and changed how develpopers made web apps
+	- Created a virtual DOM that allowed only changed areas of the page to reload instead of the whole page
+- Biggest strength is flexibilty
+- Downside is that the developer needs to make all the choices
+
+Angular
+- Heavyweight of frontend frameworks
+- Made by Google and gives you everything out of the box
+- Uses Typescript
+- Like a professor where it is strong and knowledgable, but a bit demanding
+
+Vue
+- Created by Evan Yue
+- The middle ground between React and Angular
+- Is more beginner friendly
+
+Svelte
+- Shifts the heavy lifting to the build step (uses less JS)
+- Uses the basic structure of HTML, CSS, and JS, but creates a more reactive app
+- Contender to be one of the top frameworks in the future
+
+Next JS
+- Built on top of React and includes some more backend framework functions
+
+Nuxt JS
+- Built on top of Vue and adds more backend framework functionality similar to Next JS
+
+Remix
+- Blends Frontend and Backend 
+- Uses Server-Side rendering to help prepare the webpage
+
+Astro
+- Minimalist of modern frameworks and focus on performance
+- Only loads the parts you need instead of heavy JS bundles
+- Very light and fast
+
+
