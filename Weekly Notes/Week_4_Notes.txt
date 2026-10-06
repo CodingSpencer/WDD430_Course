@@ -1,5 +1,9 @@
 Week 04 Notes
 
+Term Definitions
+- SEO: Search Engine Optimization
+- Boilerplate: Sections of code that are repeated in multiple places with little alteration
+
 
 Every Frontend Framework Explained in 6 Minutes! (https://www.youtube.com/watch?v=rd5VilifoOg)
 
@@ -41,3 +45,35 @@ Astro
 - Very light and fast
 
 
+The Pros and Cons of React (https://thenewstack.io/the-pros-and-cons-of-using-react-today/)
+- What is React JS?:
+	- Component based JS library
+	- React Native is the mobile app development version
+	- Simplifies the creation of interactive user interfaces for developers
+- React Ecosystem:
+	- One of its greatest assets is the vast ecosystem of 3rd party libraries and tools that can be partnered with it
+- More than Just Complexity
+	- Excels at UI creation, but can fall short in state management and SEO optimization
+	- Fortunately, the wider JS ecosystem provides tools that can assist with these areas
+		- MobX:
+			- Provides an initutive approach to state management with less boilerplate
+		- Next.js:
+			- Addresses the default SEO limitations of client-side rendered sites
+		- Etc. (Even more libraries)
+	- Continous evolution demands that developers stay a breast of the latest changes and advancements
+- Pros of React
+	- Component based architecture
+	- Enhanced Customization in Development
+	- Future Proof Choice for Developers
+	- Redux for State Management
+- Cons of React
+	- Complex Concepts and Advanced Patterns
+	- Intergration Complexity with Other Technologies
+	- Barrier for Non-JS Developers
+	- Not a Full Fledged Framework
+	- Code Bloat
+	- Reduced performance on legacy devices and weak networks
+	
+- Final Verdict
+	- React is a great tool, but can be loated and heavy to run at times
+			
