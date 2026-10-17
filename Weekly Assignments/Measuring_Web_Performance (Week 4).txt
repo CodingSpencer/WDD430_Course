@@ -1,0 +1,68 @@
+Measuring Web Performance
+
+Definitions:
+- Session Window: A burst of layout shifts on a page
+
+
+Part 1
+1. Setup
+Performance Score: The large circled number (0-100).
+LCP (Largest Contentful Paint): Time in seconds. Goal: < 2.5s.
+Notes: Basically when the page becomes visible to the user and has 4 subparts: TTFB, Load Delay, Load Time, and Render Delay
+CLS (Cumulative Layout Shift): The shift score. Goal: < 0.1.
+CLS Calculation Equation: layout shift score = impact fraction * distance fraction
+Ex. - Item takes up 50% of screen and move from the top to 25% of the way down the screen would create this equation 0.75 * 0.25 = 0.1875
+Notes: Measures layout shifts from one rendered frame to the next. Can be caused by page loading asynchronously or DOM elements beig added to a page before the existing content.
+TBT (Total Blocking Time): Time in milliseconds.
+Notes: This is the amount of time that a page is blocked from responding to user input. (Time after 50 ms). Common long tasks are often caused by JS loading, parsing, or execution. Can also be caused by inefficient JS statements.
+Speed Index: Time in seconds.
+
+
+2. Measuring Core Vitals (Lighthouse)
+CNN (www.cnn.com)
+Performance Score: 2
+LCP: 10.2 s
+CLS: 0.725
+TBT: 13,120 ms
+Speed Index: 18.9 s
+
+3. Measuring TTFB
+- Couldn't find TIMING tab in the network panel
+
+Part 2
+1. Create Dummy Project
+- Created the project in my personal course repo
+
+2. Measuring Hot Reload (HMR)
+- Took less than a second to update
+
+3. Measuring Bundle Size
+Svelte
+- npm run build
+	- JS Size:30.87 kB
+	- CSS Size: 1.46kB
+	- Smaller online (npm run preview): JS & CSS = 0.2
+- Lighthouse Score: 100
+	- FCP: 1.0 s; LCP: 1.5s; TBT: 10ms; CLS: 0; Speed Index: 1.0s;
+- npm run dev
+	- Lighthouse Score: 56
+	- Lot more stuff download in network tab
+	
+React
+- npm run build
+	- CSS is the same and JS is now 222.45 kB (a lot bigger)
+- npm run preview
+	- Lighthouse Score: 100 (56 for npm run dev)
+
+Part 3
+- Created Scorecard & Scorecard Cheat Sheet and save it to my course repo
+
+Part 4
+- Discussion Debrief
+	1. LCP vs. TTFB: If the TTFB is high due to a slow server there's no possibility of having a fast LCP (tied together)
+	2. Bundle Size: We measure the build size, not the file size, because of "Tree-Shaking" and minification & whitespace removal
+	3. CLS (Stability): Its measures perceived quality, not speed, making it a valuable measure for checking if it is a quality site
+
+
+	
+
