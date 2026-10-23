@@ -1,0 +1,50 @@
+Week 06 Exploration
+
+This week I decided I wanted to learn more about Svelte so I went through there website. This way I could their from their own docs and tutorials.
+
+Svelte & Svelte Kit
+Source: https://svelte.dev/
+- Svelte has been ranked the framework devlopers are most excited about using (by developers)
+- Free and open source software released under the MIT license
+Tutorial
+- Svelte compiles the code onto the page instead of rendering by default
+- Order of content in files goes Script, HTML, and then Styles
+- Can render HTML using "@html" when calling variables
+- Can make declarations reactive by wrapping their value with $state(...)
+	- Those are called runes and its how we tell Svelte that they are not ordinary variables
+	- $state react to reassignments and mutations
+		- Mutations are called deep reactivity
+		- Array length example ([1,2,3,4] and add numbers.length + 1 to the array, when repeated it will continue to grow)
+	- $derived is used when updating a value that changes upon another value changing
+	- $inspect can be used to print things to the terminal
+	- $effect is used to run code off changes to reactive values (when changes are made)
+		- Old code can still run when new ones are being started so a cleanup file will be needed
+		- They also do not run during SSR
+	- Universal Reactivity means we can use runes outside of components (We can use $state this way for mutations but not for reassignments)
+	- $props are used to pass data down from one component to its children
+		- We can also add default values for props (let { answer = 'a mystery' } = $props();)
+		- Can use destructuring by creating an object assigned to props to create some ease in calling it
+	- #if, :else if, and :else blocks
+	- #each block and keyed #each block (thing.id)
+	- $bindable is a method of passing data from a child component to the parent component
+
+Svelte vs. SvelteKit
+- Svelte is the fronted version that helps with the UI
+- SvelteKit helps build web apps so its designed to help with full stack
+
+Creating a Project
+- Svelte
+	npx sv create myapp
+	cd myapp
+	npm install
+	npm run dev
+- SvelteKit
+	npx sv create my-app
+	cd my-app
+	npm run dev
+
+
+	
+	
+		
+	
